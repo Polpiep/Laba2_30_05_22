@@ -20,10 +20,6 @@ namespace Laba1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int A { get; set; }
-        public int B { get; set; }
-        public int C { get; set; }
-
         public MainWindow()
         {
         }
@@ -32,10 +28,17 @@ namespace Laba1
         {
             try
             {
-                int a = Convert.ToInt32(tbA.Text);
-                int b = Convert.ToInt32(tbB.Text);
-                int c = Convert.ToInt32(tbC.Text);
-                Discriminant(a, b, c);
+                double a = Convert.ToInt32(tbA.Text); 
+                double b = Convert.ToInt32(tbB.Text);
+                double c = Convert.ToInt32(tbC.Text);
+                if (a == 0)
+                {
+                    ErrorMessage();
+                }
+                else
+                {
+                    Discriminant(a, b, c);
+                }
             }
             catch (Exception ex)
             {
@@ -43,46 +46,54 @@ namespace Laba1
             }
         }
 
-        private void Discriminant(int a, int b, int c)
+        private void Discriminant(double a, double b, double c)
         {
             double d = Math.Pow(b, 2) - (4 * a * c);
-            if (d >= 0)
+            if (d > 0)
             {
                 Roots(a, b, d);
+            }
+            else if (d == 0)
+            {
+                Roots(a, b);
             }
             else
             {
                 ShowResult();
             }
         }
-
-        private void Roots(int a, int b, double d)
+        //Считает 2 корня
+        private void Roots(double a, double b, double d)
         {
             double x1 = Math.Round((-b + Math.Sqrt(d)) / (2 * a), 2);
             double x2 = Math.Round((-b - Math.Sqrt(d)) / (2 * a), 2);
             ShowResult(x1, x2, d);
         }
-
+        //Считает 1 корень
+        private void Roots(double a, double b)
+        {
+            double x1 = Math.Round((-b)/(2 * a), 2);
+            ShowResult(x1);
+        }
+        //ВЫводит результат с 2мя корнями
         private void ShowResult(double x1, double x2, double d)
         {
-            if (d > 0)
-            {
-                MessageBox.Show("Первый корень равен " + x1 + " а второй корень равен " + x2);
-            }
-            else if (d == 0)
-            {
-                MessageBox.Show("Корень равен " + x1);
-            }
-
+            MessageBox.Show("Первый корень равен " + x1 + " а второй корень равен " + x2);
         }
+        //Выводит результат с 1м корнем
+        private void ShowResult(double x1)
+        {
+            MessageBox.Show("Корень равен " + x1);
+        }
+        // Выводит результат при отсутствии корней
         private void ShowResult()
         {
             MessageBox.Show("Корней нет");
         }
-
+        //Вывод при вводе некорректных данных , например буквы
         private void ErrorMessage()
         {
-            MessageBox.Show("Некорректные данные(");
+            MessageBox.Show("Некорректные данные :(");
         }
              
     }
